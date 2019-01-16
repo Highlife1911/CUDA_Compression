@@ -3,27 +3,27 @@
  *
  *
  ****************************************************************************
- *          CUDA LZSS 
+ *          CUDA LZSS
  *   Authors  : Adnan Ozsoy, Martin Swany,Indiana University - Bloomington
  *   Date    : April 11, 2011
- 
+
  ****************************************************************************
- 
+
          Copyright 2011 Adnan Ozsoy, Martin Swany, Indiana University - Bloomington
- 
+
          Licensed under the Apache License, Version 2.0 (the "License");
          you may not use this file except in compliance with the License.
          You may obtain a copy of the License at
- 
+
      http://www.apache.org/licenses/LICENSE-2.0
- 
+
          Unless required by applicable law or agreed to in writing, software
          distributed under the License is distributed on an "AS IS" BASIS,
          WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
          See the License for the specific language governing permissions and
          limitations under the License.
  ****************************************************************************/
- 
+
  /***************************************************************************
  * Code is adopted from below source
  *
@@ -49,10 +49,10 @@
 #ifndef CULZSS_H
 #define CULZSS_H
 
-//#define LOOP 100
-//#define NUMBUF 4
-//#define BUFSIZE	134217728
-//134217728
+ //#define LOOP 100
+ //#define NUMBUF 4
+ //#define BUFSIZE	134217728
+ //134217728
 
 #include <pthread.h>
 #include <stdio.h>
@@ -60,32 +60,32 @@
 #include <stdlib.h>
 
 typedef struct {
-	unsigned char ** buf;
-	unsigned char ** bufout;
-	
-	unsigned char * in_d;	
-	unsigned char * out_d;	
-	
-	int headPG;
-	int headGC;
-	int headSC;
-	int headCS;
-	int headSP;
-	int * ledger;
-	
-	int * outsize;
-	//int full, empty;
-	pthread_mutex_t *mut;
-	pthread_cond_t *produced, *compressed, *streamready, *sendready, *sent;
+    unsigned char ** buf;
+    unsigned char ** bufout;
+
+    unsigned char * in_d;
+    unsigned char * out_d;
+
+    int headPG;
+    int headGC;
+    int headSC;
+    int headCS;
+    int headSP;
+    int * ledger;
+
+    int * outsize;
+    //int full, empty;
+    pthread_mutex_t *mut;
+    pthread_cond_t *produced, *compressed, *streamready, *sendready, *sent;
 } queue;
 
 
 //gpu functions
-extern int  compression_kernel_wrapper(unsigned char * buffer, int buf_length,unsigned char * compressed_buffer, int compression_type, int wsize, int numthre, int nstreams, int index,unsigned char * in_d,unsigned char * out_d);
-extern int  decompression_kernel_wrapper(unsigned char * buffer, int buf_length,unsigned char * decompressed_buffer, int * comp_length, int compression_type, int wsize, int numthre);
+extern int  compression_kernel_wrapper(unsigned char * buffer, int buf_length, unsigned char * compressed_buffer, int compression_type, int wsize, int numthre, int nstreams, int index, unsigned char * in_d, unsigned char * out_d);
+extern int  decompression_kernel_wrapper(unsigned char * buffer, int buf_length, unsigned char * decompressed_buffer, int * comp_length, int compression_type, int wsize, int numthre);
 extern int aftercompression_wrapper(unsigned char * buffer, int buf_length, unsigned char * bufferout, int * comp_length);
-extern unsigned char * initGPUmem( int buf_length);
-extern unsigned char * initCPUmem( int buf_length);
+extern unsigned char * initGPUmem(int buf_length);
+extern unsigned char * initCPUmem(int buf_length);
 extern void deleteGPUmem(unsigned char * mem_d);
 extern void deleteCPUmem(unsigned char * mem_d);
 extern void initGPU();
@@ -96,11 +96,11 @@ extern void deleteGPUStreams();
 extern void signalExitThreads();
 
 //Queue functions
-queue *queueInit (int maxiterations,int numblocks,int blocksize);
-void queueDelete (queue *q);
-void queueAdd (queue *q, int in);
+queue *queueInit(int maxiterations, int numblocks, int blocksize);
+void queueDelete(queue *q);
+void queueAdd(queue *q, int in);
 
-void init_compression(queue *q,int maxiterations,int numblocks,int blocksize,char * file,unsigned int * book);
+void init_compression(queue *q, int maxiterations, int numblocks, int blocksize, char * file, unsigned int * book);
 void join_comp_threads();
 
 int getloopcount();

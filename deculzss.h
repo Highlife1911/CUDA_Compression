@@ -3,27 +3,27 @@
  *
  *
  ****************************************************************************
- *          CUDA LZSS 
+ *          CUDA LZSS
  *   Authors  : Adnan Ozsoy, Martin Swany,Indiana University - Bloomington
  *   Date    : April 11, 2011
- 
+
  ****************************************************************************
- 
+
          Copyright 2011 Adnan Ozsoy, Martin Swany, Indiana University - Bloomington
- 
+
          Licensed under the Apache License, Version 2.0 (the "License");
          you may not use this file except in compliance with the License.
          You may obtain a copy of the License at
- 
+
      http://www.apache.org/licenses/LICENSE-2.0
- 
+
          Unless required by applicable law or agreed to in writing, software
          distributed under the License is distributed on an "AS IS" BASIS,
          WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
          See the License for the specific language governing permissions and
          limitations under the License.
  ****************************************************************************/
- 
+
  /***************************************************************************
  * Code is adopted from below source
  *
@@ -48,15 +48,15 @@
 
 #ifndef DECULZSS_H
 #define DECULZSS_H
- 
+
 #define LOOP 1
 #define NUMBUF 4
-//#define BUFSIZE	134217728
-//1048576
-//262144
-//16777216
-//16384
-//134217728
+ //#define BUFSIZE	134217728
+ //1048576
+ //262144
+ //16777216
+ //16384
+ //134217728
 
 #include <pthread.h>
 #include <stdio.h>
@@ -64,21 +64,21 @@
 #include <stdlib.h>
 
 typedef struct {
-	unsigned char ** buf;
-	unsigned char ** bufout;
-	
-	unsigned char * in_d;	
-	unsigned char * out_d;	
-	
-	int headRG;
-	int headGW;
-	int headWR;
-	int * ledger;
-	
-	int compsize[NUMBUF];
-	//int full, empty;
-	pthread_mutex_t *mut;
-	pthread_cond_t *rcvd, *decomp, *wrote;
+    unsigned char ** buf;
+    unsigned char ** bufout;
+
+    unsigned char * in_d;
+    unsigned char * out_d;
+
+    int headRG;
+    int headGW;
+    int headWR;
+    int * ledger;
+
+    int compsize[NUMBUF];
+    //int full, empty;
+    pthread_mutex_t *mut;
+    pthread_cond_t *rcvd, *decomp, *wrote;
 } dequeue;
 
 
@@ -86,14 +86,14 @@ typedef struct {
 //extern int  compression_kernel_wrapper(unsigned char * buffer, int buf_length,unsigned char * compressed_buffer, int compression_type, int wsize, int numthre, int nstreams, int index,unsigned char * in_d,unsigned char * out_d);
 extern int  decompression_kernel_wrapper(unsigned char * buffer, int buf_length, int * comp_length, int compression_type, int wsize, int numthre);
 //extern int writedecompression_wrapper(unsigned char * buffer, int buf_length, unsigned char * bufferout, int * comp_length);
-extern unsigned char * deinitGPUmem( int buf_length);
+extern unsigned char * deinitGPUmem(int buf_length);
 extern void dedeleteGPUmem(unsigned char * mem_d);
 extern void deinitGPU();
 
 //Queue functions
-dequeue *dequeueInit (int bufsize, int numbufs,int padding );
-void dequeueDelete (dequeue *q);
-void dequeueAdd (dequeue *q, int in);
+dequeue *dequeueInit(int bufsize, int numbufs, int padding);
+void dequeueDelete(dequeue *q);
+void dequeueAdd(dequeue *q, int in);
 
 void init_decompression(dequeue * fifo, char * filename);
 void join_decomp_threads();

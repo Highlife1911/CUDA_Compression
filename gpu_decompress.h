@@ -3,27 +3,27 @@
  *
  *
  ****************************************************************************
- *          CUDA LZSS 
+ *          CUDA LZSS
  *   Authors  : Adnan Ozsoy, Martin Swany,Indiana University - Bloomington
  *   Date    : April 11, 2011
- 
+
  ****************************************************************************
- 
+
          Copyright 2011 Adnan Ozsoy, Martin Swany, Indiana University - Bloomington
- 
+
          Licensed under the Apache License, Version 2.0 (the "License");
          you may not use this file except in compliance with the License.
          You may obtain a copy of the License at
- 
+
      http://www.apache.org/licenses/LICENSE-2.0
- 
+
          Unless required by applicable law or agreed to in writing, software
          distributed under the License is distributed on an "AS IS" BASIS,
          WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
          See the License for the specific language governing permissions and
          limitations under the License.
  ****************************************************************************/
- 
+
  /***************************************************************************
  * Code is adopted from below source
  *
@@ -53,15 +53,15 @@
 #include <stdlib.h>
 #include <string.h>
 
-/***************************************************************************
-*                                CONSTANTS
-***************************************************************************/
+ /***************************************************************************
+ *                                CONSTANTS
+ ***************************************************************************/
 #define FALSE   0
 #define TRUE    1
 
 #define WINDOW_SIZE 128
 
-/* maximum match length not encoded and encoded (4 bits) */
+ /* maximum match length not encoded and encoded (4 bits) */
 #define MAX_UNCODED     2
 #define MAX_CODED       128
 #define NWORKERS	2
@@ -84,19 +84,19 @@ typedef enum
     DECODE
 } MODES;
 
-struct dethread_data{
-   int  tid;
-   int  numthreads;
-   unsigned char *buf;
-   unsigned char *outbuf;
-   int * header;
-   int msg_length;
-   int success;
-   unsigned char * in_d;
-   int ** ledger;
-   float timings;
-   int nstreams;
-   int * sizes;
+struct dethread_data {
+    int  tid;
+    int  numthreads;
+    unsigned char *buf;
+    unsigned char *outbuf;
+    int * header;
+    int msg_length;
+    int success;
+    unsigned char * in_d;
+    int ** ledger;
+    float timings;
+    int nstreams;
+    int * sizes;
 };
 
 
@@ -107,7 +107,7 @@ struct dethread_data{
 ***************************************************************************/
 
 extern "C" int  decompression_kernel_wrapper(unsigned char *buffer, int buf_length, int * comp_length, int compression_type, int wsize, int numthre);
-extern "C" unsigned char * deinitGPUmem( int buf_length);
+extern "C" unsigned char * deinitGPUmem(int buf_length);
 extern "C" void dedeleteGPUmem(unsigned char * mem_d);
 extern "C" void deinitGPU();
 #endif
