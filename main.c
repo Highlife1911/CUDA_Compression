@@ -55,7 +55,7 @@
 #include <sys/time.h>
 #include <string.h>
 #include <signal.h>
-#include "getopt.h"
+//#include "getopt.h"
 #include "decompression.h"
 
 #define MINSIZE 65536 //335544321 // //1MB size for minimum process
@@ -177,7 +177,7 @@ int main(int argc, char* argv[])
         case 'h':       /* help */
             printf(" Usage for compression: ./main -i {inputfile} -o {outputfile}\n");
             printf(" Usage for decompression: ./main -d 1 -i {inputfile} -o {outputfile}\n");
-            return;
+            return 1;
 
             // case 'b':       /* buf size */
                     // buffersize = atoi(optarg);
@@ -191,7 +191,7 @@ int main(int argc, char* argv[])
     {
         printf(" Usage for compression: ./main -i {inputfile} -o {outputfile}\n");
         printf(" Usage for decompression: ./main -d 1 -i {inputfile} -o {outputfile}\n");
-        return;
+        return 1;
     }
 
     if ((filein = fopen(inputfilename, "rb")) == NULL) {
@@ -218,7 +218,7 @@ int main(int argc, char* argv[])
         int sizeinmb = totalsize / (1024 * 1024);
 
         printf("\tThroughput for  %dMB is :\t%lfMbps \n", sizeinmb, (sizeinmb * 8) / alltime);
-        return;
+        return 1;
     }
 
 
@@ -228,7 +228,7 @@ int main(int argc, char* argv[])
     if (totalsize < BUFSIZE)
     {
         printf(", too small to benefit from GPU\n");
-        return;
+        return 1;
     }
     else
 
